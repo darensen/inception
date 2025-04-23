@@ -14,9 +14,9 @@ RUN chmod +x wp-cli.phar
 
 RUN mv wp-cli.phar /usr/local/bin/wp
 
-COPY www.conf /etc/php/8.2/fpm/pool.d/.
+COPY tools/www.conf /etc/php/8.2/fpm/pool.d/.
 
-COPY script.sh .
+COPY tools/script.sh .
 
 RUN chmod +x script.sh
 
