@@ -33,13 +33,12 @@ fi
 if ! wp core is-installed --allow-root; then
 	echo "Installation de WordPress..."
 	wp core install --allow-root \
-		--url="https://$DOMAIN_NAME" \
+		--url="https://dsenatus.42.fr" \
 		--title="Inception" \
 		--admin_user=$WORDPRESS_ADMIN_USER \
 		--admin_password=$WORDPRESS_ADMIN_PASSWORD \
 		--admin_email=$WORDPRESS_ADMIN_EMAIL
 fi
-
 
 if ! wp user get $WORDPRESS_USER --allow-root > /dev/null 2>&1; then
 	echo "Création de l'utilisateur secondaire..."

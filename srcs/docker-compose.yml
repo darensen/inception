@@ -1,3 +1,4 @@
+
 services:
   nginx:
     build: requirements/nginx
@@ -28,7 +29,7 @@ services:
     build: ./requirements/mariadb
     container_name: mariadb
     volumes:
-      - ./database:/var/lib/mysql:rw
+      - ./database:/var/lib/mysql
     env_file:
       - .env
     restart: unless-stopped
@@ -39,15 +40,17 @@ volumes:
   wordpress:
    driver: local
    driver_opts:
-     type: 'none'
+     type: 'none' 
+     device: ./home/vboxuser/data/wordpress
      o: bind
-     device: ./home/vboxuser/data
+    
   mariadb:
     driver: local
     driver_opts:
       type: 'none'
+      device: ./home/vboxuser/data/mariadb
       o: bind
-      device: ./home/vboxuser/data
+      
 
 networks:
   inception:
