@@ -1,24 +1,33 @@
 DOCKER_COMPOSE = docker compose
 COMPOSE_FILE = ./srcs/docker-compose.yml
+DATA_DIR := /home/$USER/data
+MARIADB_DATA_DIR := $(DATA_DIR)/mariadb
+WORDPRESS_DATA_DIR := $(DATA_DIR)/wordpress
 
-all: up
-
+all : 
+	cd ./srcs && docker compose up --build -d
 build:
-	$(DOCKER_COMPOSE) -f $(COMPOSE_FILE) build
+	cd ./srcs && docker compose build
 up:
-	cd ./srcs && $(DOCKER_COMPOSE) up -d
+	mkdir -p $(DATA_DIR)
+	mkdir -p $(MARIADB_DATA_DIR)
+	mkdir -p $(WORDPRESS_DATA_DIR)
+	cd ./srcs && docker compose up -d
 
 down:
-	$(DOCKER_COMPOSE) -f $(COMPOSE_FILE) down
+	cd ./srcs && docker compose down
 
 clean: down
-	$(DOCKER_COMPOSE) -f $(COMPOSE_FILE) rm -fsv
-	docker volume prune -f
+	docker volume rm -f srcs_web
+	docker volume rm -f srcs_database
+	
 
 fclean: clean
-	docker system prune -af --volumes
-	sudo rm -rf ./srcs/web ./srcs/database
+	sudo rm -rf $(MARIADB_DATA_DIR)/*
+	sudo rm -rf $(WORDPRESS_DATA_DIR)/*
+	docker system prune -f
 
 re: fclean all
 
 .PHONY: all build up down clean fclean re
+
